@@ -1,4 +1,5 @@
 const generateOTP = require("../utils/otp.js")
+const bcrypt = require("bcrypt")
 const nodeMailer = require("nodemailer")
 require("dotenv").config()
 class OtpController {
@@ -8,10 +9,11 @@ class OtpController {
 
     async CreateOtp(req, res) {
         //create otp and send email here
-        const {email} = req.body
+        const {first_name, last_name, email, password} = req.body
         try {
             const otp = generateOTP()
-            const createdOtp = await this.otpUseCase.CreateOtp(otp, email)
+            const hashedPwd = await bcrypt.hash(password, 10)
+            const createdOtp = await this.otpUseCase.CreateOtp(otp, first_name, last_name, email, hashedPwd)
             //the email sending functionality here now
             const MAIL_SETTINGS = {
                 service : 'gmail',

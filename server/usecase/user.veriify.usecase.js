@@ -3,9 +3,9 @@ class SignupUseCase {
         this.signupRepository = signupRepository
     }
     
-    async Signup(name, email, password, otp) {
+    async Signup(email, otp) {
         try {
-            const createdUser = await this.signupRepository.Signup(name, email, password, otp)
+            const createdUser = await this.signupRepository.Signup(email, otp)
             return createdUser
         } catch(err) {
             throw new Error(err.message)

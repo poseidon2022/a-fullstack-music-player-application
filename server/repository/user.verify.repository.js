@@ -1,7 +1,8 @@
 const Otp = require("../models/otp.model")
 const User = require("../models/user.model")
+const Pending = require("../models/pending.model")
 class SignupRepository {
-    async Signup(name, email, password, otp) {
+    async Signup(email,otp) {
         try {
             const foundUser = await User.findOne({email})
             if (foundUser) {
@@ -13,9 +14,15 @@ class SignupRepository {
                 throw new Error("invalid otp");
             }
 
-            const createdUser = await User.create({name, email, password})
+            const pendingUser = await User.findOne({email}).sort({created_at : -1}).limit(1)
+            const fetchedUser = pendingUser[0]
+            const createdUser = await User.create({
+                first_name : fetchedUser.first_name,
+                last_name : fetchedUser.last_name,
+                password : fetchedUser.password,
+                email : fetchedUser.email
+            })
             return createdUser
-
         } catch(err) {
             console.log(err.message)
             throw new Error(err.message)
