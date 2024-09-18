@@ -4,7 +4,7 @@ class OtpRepository {
     async CreateOtp(otp, first_name, last_name, email, password) {
         try {
             const createdOtp = await OTP.create({email, otp})
-            const pendingUser = await Pending.create(first_name, last_name, email, password)
+            const pendingUser = await Pending.create({first_name, last_name, email, password})
             return createdOtp
         } catch(err) {
             console.log(err.message)

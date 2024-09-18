@@ -14,8 +14,7 @@ class SignupRepository {
                 throw new Error("invalid otp");
             }
 
-            const pendingUser = await User.findOne({email}).sort({created_at : -1}).limit(1)
-            const fetchedUser = pendingUser[0]
+            const fetchedUser = await Pending.findOne({email}).sort({created_at : -1}).limit(1)
             const createdUser = await User.create({
                 first_name : fetchedUser.first_name,
                 last_name : fetchedUser.last_name,
