@@ -36,7 +36,7 @@ class LoginController {
             await this.loginUseCase.RefreshToken(email, refreshToken)
 
             const userInformation = {
-                first_name : foundUser.first_naem,
+                first_name : foundUser.first_name,
                 last_name : foundUser.last_name,
                 email : foundUser.email,
                 _id : foundUser._id.toString(),
