@@ -1,6 +1,7 @@
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+import Otp from './pages/otp'
 import Home from './pages/Home'
 import Favorites from './pages/favorites'
 import Profile from './pages/profile'
@@ -15,6 +16,7 @@ export default function App() {
       <Routes>
         <Route path = "/" element = {<Login></Login>}></Route>
         <Route path = "/signup" element = {<Signup></Signup>}></Route>
+        <Route path = "/otp" element = {<Otp></Otp>}></Route>
         <Route 
           path = "/home"
           element = {

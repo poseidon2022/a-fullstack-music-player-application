@@ -9,7 +9,6 @@ class OtpController {
 
     async CreateOtp(req, res) {
         //create otp and send email here
-        console.log("I am here")
         const {first_name, last_name, email, password} = req.body
         try {
             const otp = generateOTP()
