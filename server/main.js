@@ -6,7 +6,10 @@ const mongoose = require("mongoose")
 const userRouter = require("./api/router/user.router.js")
 const refreshRouter = require("./api/router/refresh.router.js")
 
-mongoose.connect(process.env.DATABASEURI)
+mongoose.connect(process.env.DATABASEURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
 .then(() => {
     console.log("Database Connected")
 })
