@@ -14,8 +14,8 @@ export default function App() {
     <Router>
       <GlobalStyle />
       <Routes>
-        <Route path = "/" element = {<Login></Login>}></Route>
-        <Route path = "/signup" element = {<Signup></Signup>}></Route>
+        <Route path = "/login" element = {<Login></Login>}></Route>
+        <Route path = "/" element = {<Signup></Signup>}></Route>
         <Route path = "/otp" element = {<Otp></Otp>}></Route>
         <Route 
           path = "/home"

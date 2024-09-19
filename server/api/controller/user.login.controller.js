@@ -35,12 +35,21 @@ class LoginController {
             const refreshToken = generateRefreshToken(tokenization_parameters)
             await this.loginUseCase.RefreshToken(email, refreshToken)
 
+            const userInformation = {
+                first_name : foundUser.first_naem,
+                last_name : foundUser.last_name,
+                email : foundUser.email,
+                _id : foundUser._id.toString(),
+                accessToken : accessToken
+            }
+
             res
             .cookie('refreshToken', refreshToken, {httpOnly : true, sameSite : 'strict'})
             .header('Authorization', accessToken)
             .json({
                 success : true,
-                message : "user logged in successfully"
+                message : "user logged in successfully",
+                user : userInformation
             })
         } catch(err) {
             res.status(500).json({

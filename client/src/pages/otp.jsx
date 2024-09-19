@@ -27,7 +27,7 @@ export default function Otp() {
                 if (data.success) {
                     toast("verification success, please login to proceed")
                     localStorage.removeItem('email')
-                    navigate("/")
+                    navigate("/login")
                 } else {
                     toast.warn(data.message) 
                 }
