@@ -1,9 +1,14 @@
 import { useState } from "react"
 import {Container, Form, LoginMessage} from "../wrappers/Login"
+import {useSelector, useDispatch} from 'react-redux'
+import {userLogin} from '../actions/authAction'
 import { Link } from "react-router-dom"
 export default function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    const dispatch = useDispatch()
+    const {loading, error} = useSelector((state) => state.auth)
     function handleEmailChange(e) {
         e.preventDefault()
         setEmail((email) => e.target.value)
@@ -12,9 +17,12 @@ export default function Login() {
         e.preventDefault()
         setPassword((password) => e.target.value)
     }
-    function handleSubmit() {
-        setEmail('')
-        setPassword('')
+    function handleSubmit(e) {
+        e.preventDefault()
+        dispatch(userLogin({
+            password : password,
+            email : email
+        }))
     }
     return (
         <Container>
