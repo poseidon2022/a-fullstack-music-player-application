@@ -20,8 +20,10 @@ export const userLogin = createAsyncThunk(
             )
 
             const accessToken = data.data.user.accessToken
+            const user_id = data.data.user._id
 
             localStorage.setItem('userToken', accessToken)
+            localStorage.setItem('user_id', user_id)
             return data
 
         } catch(error) {

@@ -20,7 +20,7 @@ export const Name = styled.div`
     @media screen and (max-width: 900px) {
         display: flex;
         flex-direction: column;
-        width: 50vw;
+        width: 70vw;
         .names {
             width: 100%;
         }
@@ -61,7 +61,7 @@ export const Form = styled.form`
 
     @media screen and (max-width:900px) {
         .email_and_password {
-            width: 50vw;
+            width: 70vw;
         }
     }
 `

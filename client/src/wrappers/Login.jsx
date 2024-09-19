@@ -36,7 +36,7 @@ export const Form = styled.form`
 
     @media screen and (max-width:900px) {
         .email_and_password {
-            width: 50vw;
+            width: 70vw;
         }
     }
 `
