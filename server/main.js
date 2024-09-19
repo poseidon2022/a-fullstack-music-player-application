@@ -3,10 +3,6 @@ const cookieParser = require("cookieparser")
 const cors = require("cors")
 require("dotenv").config()
 const mongoose = require("mongoose")
-const blogRouter = require("./api/router/blog.router.js")
-const commentRouter = require("./api/router/blog.comment.router.js")
-const likeRouter = require("./api/router/blog.like.router.js")
-const ratingRouter = require("./api/router/blog.rating.router.js")
 const userRouter = require("./api/router/user.router.js")
 const refreshRouter = require("./api/router/refresh.router.js")
 
@@ -22,10 +18,6 @@ app.use(cors())
 app.use(express.json())
 
 const PORT = process.env.PORT || 3000
-app.use("/api/blog", blogRouter)
-app.use("/api/blog", commentRouter)
-app.use("/api/blog", likeRouter)
-app.use("/api/blog", ratingRouter)
 app.use("/api/user", userRouter)
 app.use("/api/user", refreshRouter)
 app.listen(PORT, () => {
