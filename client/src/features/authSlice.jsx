@@ -23,8 +23,8 @@ const authSlice = createSlice({
         builder
             .addCase(userLogin.fulfilled, (state, {payload}) => {
                 state.loading = false,
-                state.userInfo = payload.userInformation,
-                state.userToken = payload.userInformation.accessToken
+                state.userInfo = payload.data.user,
+                state.userToken = payload.data.user.accessToken
             })
         
         builder

@@ -1,13 +1,15 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {Container, Form, LoginMessage} from "../wrappers/Login"
 import {useSelector, useDispatch} from 'react-redux'
 import {userLogin} from '../actions/authAction'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import {toast} from 'react-toastify'
 export default function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const {loading, error} = useSelector((state) => state.auth)
     function handleEmailChange(e) {
         e.preventDefault()
@@ -17,12 +19,20 @@ export default function Login() {
         e.preventDefault()
         setPassword((password) => e.target.value)
     }
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault()
-        dispatch(userLogin({
+        await dispatch(userLogin({
             password : password,
             email : email
         }))
+
+        const userToken = localStorage.getItem('userToken');
+        if (userToken) {
+            toast("logged in successfully")
+            navigate('/home');
+        } else {
+            toast.warn("invalid credentials, try again")
+        }
     }
     return (
         <Container>
@@ -51,7 +61,7 @@ export default function Login() {
                 />
             </Form>
             <LoginMessage>
-                Don't have an account? <Link to = "signup" className = "signup">Signup</Link>
+                Don't have an account? <Link to = "/" className = "signup">Signup</Link>
             </LoginMessage>
         </Container>
     )

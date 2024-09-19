@@ -22,9 +22,15 @@ class LoginController {
                     message : "user with the specified email not found"
                 })
             } 
+            const hashedPassword = foundUser.password;
+            const passwordMatch = await bcrypt.compare(password, hashedPassword);
 
-            const hashedPassword = foundUser.password
-            await bcrypt.compare(password,hashedPassword)
+            if (!passwordMatch) {
+                return res.status(403).json({
+                    success: false,
+                    message: "Invalid password"
+                });
+            }
 
             const tokenization_parameters = {
                 email : email,
@@ -43,6 +49,7 @@ class LoginController {
                 accessToken : accessToken
             }
 
+            console.log(userInformation)
             res
             .cookie('refreshToken', refreshToken, {httpOnly : true, sameSite : 'strict'})
             .header('Authorization', accessToken)

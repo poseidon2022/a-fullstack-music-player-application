@@ -90,7 +90,7 @@ export default function Signup() {
                 />
             </Form>
             <SignupMessage>
-                Already have an account? <Link to = "/" className = "signup">Login</Link>
+                Already have an account? <Link to = "/login" className = "signup">Login</Link>
             </SignupMessage>
         </Container>
     )

@@ -13,13 +13,15 @@ export const userLogin = createAsyncThunk(
                 },
             }
 
-            const {data} = axios.post(
+            const data = await axios.post(
                 `${backendURL}/api/user/login`, 
                 {email, password},
                 config
             )
 
-            localStorage.setItem('userToken', data.userInformation.accessToken)
+            const accessToken = data.data.user.accessToken
+
+            localStorage.setItem('userToken', accessToken)
             return data
 
         } catch(error) {
