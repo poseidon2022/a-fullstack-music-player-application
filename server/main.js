@@ -5,6 +5,7 @@ require("dotenv").config()
 const mongoose = require("mongoose")
 const userRouter = require("./api/router/user.router.js")
 const refreshRouter = require("./api/router/refresh.router.js")
+const songRouter = require("./api/router/song.router.js")
 
 mongoose.connect(process.env.DATABASEURI, {
     useNewUrlParser: true,
@@ -23,6 +24,7 @@ app.use(express.json())
 const PORT = process.env.PORT || 3000
 app.use("/api/user", userRouter)
 app.use("/api/user", refreshRouter)
+app.use("/api/song", songRouter)
 app.listen(PORT, () => {
     console.log(`app running on port ${PORT}`)
 })
