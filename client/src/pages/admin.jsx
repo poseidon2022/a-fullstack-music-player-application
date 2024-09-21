@@ -1,6 +1,9 @@
 import { useState } from "react"
+import axios from 'axios'
 import {MusicList, Upload, Container, TrackContainer, Song, Track} from "../wrappers/admin"
 import hand from "../assets/hand.jpg";
+import {toast} from 'react-toastify'
+
 export default function Admin() {
     const [formData, setFormData] = useState({
         music: null,
@@ -16,8 +19,31 @@ export default function Admin() {
         setFormData((prev) => ({...prev, [e.target.id] : e.target.value}))
     }
 
-    function handleSubmit() {
+    async function handleSubmit() {
+        e.preventDefault()
+        const musicData = new FormData()
+        musicData.append("audio_url", formData.music)
+        musicData.append("song_name", formData.song_name)
+        musicData.append("image_url", formData.image)
+        musicData.append("artist_name", formData.artist)
+        musicData.append("date", formData.date)
+        musicData.append("user_id", localStorage.getItem("user_id"))
 
+        try {
+            const res = await axios.post('http://localhost:3000/api/song/upload', formData, {
+                headers: {
+                    'Content-Type' : 'multipart/form-data'
+                }
+            })
+
+            if (res.data.success) { 
+                toast("song uploaded successfully. refresh your page")
+            } else {
+                toast.warn("error while uploading song")
+            }
+        } catch(error) {
+            console.error(err)
+        }
     }
     return (
         <Container>
