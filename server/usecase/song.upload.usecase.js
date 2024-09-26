@@ -3,10 +3,10 @@ class SongUploadUseCase {
         this.songUploadRepository = songUploadRepository
     }
 
-    async Upload(song_name, artist_name, user_id, audio_url, image_url) {
+    async Upload(song_name, artist_name, user_id, audio_url, image_url, date) {
         try  {
             const uploadedSong = await this.songUploadRepository.Upload(
-                song_name, artist_name, user_id, audio_url, image_url
+                song_name, artist_name, user_id, audio_url, image_url, date
             )
             return uploadedSong
         } catch(err) {

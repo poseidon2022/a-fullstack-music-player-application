@@ -1,31 +1,23 @@
-const multer = require('multer');
-const { v2: cloudinary } = require('cloudinary');
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require("../utils/cloudinaryConfig")
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const multer = require("multer");
 
-require("dotenv").config()
-cloudinary.config({
-    cloud_name : process.env.CLOUDINARY_CLOUD_NAME,
-    api_key : process.env.CLOUDINARY_CLOUD_API,
-    api_secret : process.env.CLOUDINARY_CLOUD_SECRET
-})
-
+// Set up Cloudinary storage for multer
 const storage = new CloudinaryStorage({
-    cloudinary: cloudinary,
-    params: async (req, file) => {
-      if (file.mimetype.startsWith('image/')) {
-        return {
-          folder: 'images',
-          resource_type: 'image',
-        };
-      } else if (file.mimetype.startsWith('audio/')) {
-        return {
-          folder: 'audio',
-          resource_type: 'video',
-        };
-      }
-    },
-  });
+  cloudinary: cloudinary,
+  params: async (req, file) => {
 
-  const upload = multer({storage})
+    console.log(file)
+    return {
+      folder : 'nono',
+      resource_type : 'auto',
+      allowedFormats : ['jpeg', 'jpg', 'png', 'mp3', 'm4a', 'mpeg'],
+      path : file.path
+    }
+  },
+});
 
-  module.exports = upload
+console.log(storage.cloudinary_url)
+const upload = multer({ storage: storage });
+
+module.exports = upload;

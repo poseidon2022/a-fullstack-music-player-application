@@ -55,6 +55,23 @@ export const Upload = styled.form`
         font-size: 2em;
         font-weight: 600; 
     }
+    
+    .spinner {
+        margin-left: 10px; /* Adjust spacing between input and spinner */
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        border-left-color: #09f;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 
     @media screen and (max-width:900px) {
         input {
