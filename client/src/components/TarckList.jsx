@@ -10,21 +10,19 @@ import { pauseSong, playSong, resumeSong } from '../features/songSlice';
 import { useState } from 'react';
 
 export default function TrackList() {
-    const { data, isLoading, error, currentSong, isPlaying} = useSelector((state) => state.song);
-    const [activeSongId, setActiveSongId] = useState(null);
+    const { data, isLoading, error, currentSong, isPlaying, activeSongId} = useSelector((state) => state.song);
   
-    const fetchedSongs = data && data.songs ? data.songs : [];
+    const fetchedSongs = data ? data : [];
     const dispatch = useDispatch()
 
     const handlePlay = (song, index) => {
-
-        setActiveSongId(song._id);
+        
         if (currentSong && currentSong._id === song._id && isPlaying) {
           dispatch(pauseSong()); 
         } else if (currentSong && currentSong._id === song._id && !isPlaying) {
           dispatch(resumeSong()); 
         } else {
-          dispatch(playSong(song, index));
+          dispatch(playSong({song, index}));
         }
       };
     return (

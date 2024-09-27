@@ -30,7 +30,7 @@ export default function Playing() {
     const [progress, setProgress] = useState(0);
     const audioRef = useRef(null)
 
-    const { currentSong, isPlaying, data } = useSelector(state => state.song);
+    const { currentSong, isPlaying, data, currentSongIndex} = useSelector(state => state.song);
     const dispatch = useDispatch()
     useEffect(()=> {
         if (audioRef.current) {
@@ -61,11 +61,11 @@ export default function Playing() {
     }
 
     const handleNext = () => {
-        dispatch(playNextSong())
+        dispatch(playNextSong(currentSongIndex))
     }
 
     const handlePrevious = () => {
-        dispatch(playPreviousSong());
+        dispatch(playPreviousSong(currentSongIndex));
     }
 
     const handlePlayPause = () => {
@@ -74,6 +74,8 @@ export default function Playing() {
         } else {
             dispatch(resumeSong());
         }
+
+        console.log(data)
     };
 
     const handleProgressChange = (e) => {

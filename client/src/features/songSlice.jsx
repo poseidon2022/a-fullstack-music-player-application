@@ -14,31 +14,38 @@ const songSlice = createSlice({
         currentSong: null,
         isPlaying : false,
         currentSongIndex : 0,
+        activeSongId : null
     }, 
     reducers: {
         playSong: (state, action) => {
             const {song, index} = action.payload;
             state.currentSongIndex = index;
-            state.currentSong = action.payload;
+            state.currentSong = song;
             state.isPlaying = true;
+            state.activeSongId = song._id
         },
         pauseSong: (state) => {
+            console.log(state)
             state.isPlaying = false;
         },
         resumeSong: (state) => {
             state.isPlaying = true;
         },
-        playNextSong: (state) => {
-            const nextIndex = (state.currentSongIndex + 1) % state.data.length;
+        playNextSong: (state, action) => {
+
+            const nextIndex = (action.payload + 1) % state.data.length;
             state.currentSong = state.data[nextIndex];
             state.currentSongIndex = nextIndex;
             state.isPlaying = true;
+            state.activeSongId = state.currentSong._id
         },
-        playPreviousSong: (state) => {
-            const prevIndex = (state.currentSongIndex - 1 + state.data.length) % state.data.length;
+        playPreviousSong: (state, action) => {
+
+            const prevIndex = (action.payload - 1 + state.data.length) % state.data.length;
             state.currentSongIndex = prevIndex;
             state.currentSong = state.data[prevIndex];
             state.isPlaying = true;
+            state.activeSongId = state.currentSong._id
         },
       },
     extraReducers: (builder) => {
@@ -48,7 +55,7 @@ const songSlice = createSlice({
 
         builder.addCase(fetchSong.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.data = action.payload;
+            state.data = action.payload.songs;
         })
 
         builder.addCase(fetchSong.rejected, (state, action) => {
