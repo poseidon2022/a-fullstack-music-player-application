@@ -15,6 +15,8 @@ export default function TrackList() {
     const dispatch = useDispatch()
 
     const handlePlay = (song, index) => {
+
+        console.log(song, index)
         if (currentSong && currentSong._id === song._id && isPlaying) {
           dispatch(pauseSong()); 
         } else if (currentSong && currentSong._id === song._id && !isPlaying) {
@@ -41,8 +43,8 @@ export default function TrackList() {
                 ) : error ? (
                     <p>Error loading songs</p>
                 ) : fetchedSongs.length > 0 ? (
-                    fetchedSongs.map((song) => (
-                    <Song key={song._id} onClick = {() => handlePlay((song, index))}>
+                    fetchedSongs.map((song, index) => (
+                    <Song key={song._id} onClick = {() => handlePlay(song, index)}>
                         <img src={song.image_url} className="song_image" alt="Song cover" />
                         <div className="song_name_artist">
                         <div className="song_name">{song.song_name}</div>

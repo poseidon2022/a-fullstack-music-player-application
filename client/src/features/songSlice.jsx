@@ -34,6 +34,12 @@ const songSlice = createSlice({
             state.currentSongIndex = nextIndex;
             state.isPlaying = true;
         },
+        playPreviousSong: (state) => {
+            const prevIndex = (state.currentIndex - 1 + state.songList.length) % state.songList.length;
+            state.currentIndex = prevIndex;
+            state.currentSong = state.data[prevIndex];
+            state.isPlaying = true;
+        },
       },
     extraReducers: (builder) => {
         builder.addCase(fetchSong.pending, (state, action) => {
@@ -52,6 +58,6 @@ const songSlice = createSlice({
     }
 })
 
-export const {playSong, pauseSong, resumeSong, playNextSong} = songSlice.actions
+export const {playSong, pauseSong, resumeSong, playNextSong, playPreviousSong} = songSlice.actions
 
 export default songSlice.reducer

@@ -1,6 +1,7 @@
 import hand from "../assets/hand.jpg";
 import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
+import { playNextSong, playSong, playPreviousSong, pauseSong, resumeSong } from "../features/songSlice";
 import {
     Container,
     NowPlaying,
@@ -20,26 +21,75 @@ import {FaPlus,
         FaBackward,
         FaRedo,
         FaVolumeDown,
-        FaVolumeUp
+        FaVolumeUp, 
+        FaPause
     } from "react-icons/fa"
 
 export default function Playing() {
     const [volume, setVolume] = useState(50);
+    const [progress, setProgress] = useState(0);
     const audioRef = useRef(null)
 
-    const { currentSong, isPlaying } = useSelector(state => state.song);
-
+    const { currentSong, isPlaying, data } = useSelector(state => state.song);
+    const dispatch = useDispatch()
     useEffect(()=> {
         if (audioRef.current) {
-            audioRef.current.volume = volume;
+            audioRef.current.volume = volume / 100;
         }
     }, [volume])
+
+    useEffect(() => {
+        if (audioRef.current && currentSong) {
+            audioRef.current.src = currentSong.audio_url; // Update audio source
+            if (isPlaying) {
+                audioRef.current.play();
+            } else {
+                audioRef.current.pause();
+            }
+        }
+    }, [currentSong, isPlaying]);
 
     const handleVolumeChange = (e) => {
         setVolume(e.target.value);
     }
+
+    const handleNext = () => {
+        dispatch(playNextSong())
+    }
+
+    const handlePrevious = () => {
+        dispatch(playPreviousSong());
+    }
+
+    const handlePlayPause = () => {
+        if (isPlaying) {
+          dispatch(pauseSong());
+        } else {
+          dispatch(resumeSong());
+        }
+    };
+
+    const handleProgressChange = (e) => {
+        const newProgress = e.target.value;
+        setProgress(newProgress);
+        if (audioRef.current) {
+            audioRef.current.currentTime = (newProgress / 100) * audioRef.current.duration;
+        }
+    };
+
+    const handleTimeUpdate = () => {
+        if (audioRef.current) {
+            setProgress((audioRef.current.currentTime / audioRef.current.duration) * 100 || 0);
+        }
+    }
     return (
         <Container>
+            <audio
+                ref={audioRef}
+                onTimeUpdate={handleTimeUpdate}
+                onEnded={handleNext}
+            />
+
             <NowPlaying>
                 Now Playing
             </NowPlaying>
@@ -58,27 +108,29 @@ export default function Playing() {
             </MusicDetail>
             <Control>
                 <TimeControl>
-                    <span>00:00</span>
+                    <span>{audioRef.current ? Math.floor(audioRef.current.currentTime / 60) + ":" + ("0" + Math.floor(audioRef.current.currentTime % 60)).slice(-2) : "00:00"}</span>
                     <input
                         type="range"
                         min="0"
-                        max="100" //max will be changable based on the music length {musicLength}, the same is true for the span component
+                        max="100"
+                        value={progress}
+                        onChange={handleProgressChange}
                     />
-                    <span >--:--</span>
+                    <span>{audioRef.current && audioRef.current.duration ? Math.floor(audioRef.current.duration / 60) + ":" + ("0" + Math.floor(audioRef.current.duration % 60)).slice(-2) : "--:--"}</span>
                 </TimeControl>
                 <PropertyControl>
                     <button className = "random_and_loop">
                         <FaRandom />
                     </button>
-                    <button>
+                    <button onClick={handlePrevious}>
                         <FaBackward />
                     </button>
                     <div className = "play_container">
-                        <button className = "play_button">
-                            <FaPlay />
+                        <button className = "play_button" onClick={handlePlayPause}>
+                            {isPlaying ? <FaPause /> : <FaPlay />}
                         </button>
                     </div>
-                    <button>
+                    <button onClick = {handleNext}>
                         <FaForward />
                     </button>
                     <button className = "random_and_loop">
