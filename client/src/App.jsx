@@ -9,7 +9,18 @@ import ProtectedRoute from './ProtectedRoutes'
 import GlobalStyle from './globalStyles'
 import Admin from './pages/admin'
 
+import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { fetchSong } from './features/songSlice'
+
 export default function App() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchSong());
+  }, [dispatch]);
+
   return  (
     <Router>
       <GlobalStyle />
@@ -29,7 +40,7 @@ export default function App() {
           path = "/admin"
           element = {
             <ProtectedRoute>
-              <Admin />
+              <Admin/>
             </ProtectedRoute>
           }
         />

@@ -4,6 +4,7 @@ import TrackList from "../components/TarckList"
 import DiscoverNew from "../components/DiscoverNew"
 import Playing from "../components/Playing"
 export default function Home() {
+
     return (
         <Container>
             <SideBar/>

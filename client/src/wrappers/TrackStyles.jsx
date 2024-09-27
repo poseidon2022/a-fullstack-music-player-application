@@ -43,6 +43,7 @@ export const Song = styled.div`
     display: flex;
     flex-direction : row;
     padding : 5px;
+    cursor : pointer;
     .song_image {
         width: 2.5em;
         height: 2.5em;

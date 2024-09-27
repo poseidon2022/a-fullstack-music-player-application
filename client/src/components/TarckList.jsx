@@ -5,9 +5,12 @@ import {Container,
         TrackContainer,
         Song} from '../wrappers/TrackStyles'
 import { FaRandom, FaRedo } from 'react-icons/fa'
-import hand from "../assets/hand.jpg";
+import {useSelector } from "react-redux";
 
 export default function TrackList() {
+    const { data, isLoading, error } = useSelector((state) => state.song);
+  
+    const fetchedSongs = data && data.songs ? data.songs : [];
     return (
         <Container>
             <Track>
@@ -21,82 +24,27 @@ export default function TrackList() {
                 Playing Next
             </PlayingNext>
             <TrackContainer>
-                <Song>
-                    <img src = {hand} className = "song_image"></img>
-                    <div className = "song_name_artist">
-                        <div className = "song_name">
-                            Money Machine
+                {isLoading ? (
+                <p>Loading songs...</p>
+                ) : error ? (
+                    <p>Error loading songs</p>
+                ) : fetchedSongs.length > 0 ? (
+                    fetchedSongs.map((song) => (
+                    <Song key={song._id}>
+                        <img src={song.image_url} className="song_image" alt="Song cover" />
+                        <div className="song_name_artist">
+                        <div className="song_name">{song.song_name}</div>
+                        <div className="artist">{song.artist_name}</div>
                         </div>
-                        <div className = "artist">
-                            1000 gecks
+                        <div className="year_minute">
+                        <div className="song_name">3:00</div>
+                        <div className="artist">{song.date.split("-")[0]}</div>
                         </div>
-                    </div>
-                    <div className = "year_minute">
-                        <div className = "song_name">
-                            3:00
-                        </div>
-                        <div className = "artist">
-                            2019
-                        </div>
-                    </div>
-                </Song>
-                <Song>
-                    <img src = {hand} className = "song_image"></img>
-                    <div className = "song_name_artist">
-                        <div className = "song_name">
-                            Money Machine
-                        </div>
-                        <div className = "artist">
-                            1000 gecks
-                        </div>
-                    </div>
-                    <div className = "year_minute">
-                        <div className = "song_name">
-                            3:00
-                        </div>
-                        <div className = "artist">
-                            2019
-                        </div>
-                    </div>
-                </Song>
-                <Song>
-                    <img src = {hand} className = "song_image"></img>
-                    <div className = "song_name_artist">
-                        <div className = "song_name">
-                            Money Machine
-                        </div>
-                        <div className = "artist">
-                            1000 gecks
-                        </div>
-                    </div>
-                    <div className = "year_minute">
-                        <div className = "song_name">
-                            3:00
-                        </div>
-                        <div className = "artist">
-                            2019
-                        </div>
-                    </div>
-                </Song>
-                <Song>
-                    <img src = {hand} className = "song_image"></img>
-                    <div className = "song_name_artist">
-                        <div className = "song_name">
-                            Money Machine
-                        </div>
-                        <div className = "artist">
-                            1000 gecks
-                        </div>
-                    </div>
-                    <div className = "year_minute">
-                        <div className = "song_name">
-                            3:00
-                        </div>
-                        <div className = "artist">
-                            2019
-                        </div>
-                    </div>
-                </Song>
+                    </Song>
+                    ))
+                ) : (
+                    <p>No Songs Available</p>
+                )}
             </TrackContainer>
         </Container>   
     )

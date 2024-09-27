@@ -1,9 +1,7 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {fetchSong} from '../features/songSlice'
+import { useState} from "react";
+import {useSelector } from "react-redux";
 import axios from "axios";
 import { MusicList, Upload, Container, TrackContainer, Song, Track } from "../wrappers/admin";
-import hand from "../assets/hand.jpg";
 import { toast } from "react-toastify";
 
 export default function Admin() {
@@ -14,10 +12,12 @@ export default function Admin() {
     song_name: "",
     date: "",
   });
+
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch()
-  const data = useSelector(state => state)
-  console.log(data.song)
+  const { data, isLoading, error } = useSelector((state) => state.song);
+
+  const fetchedSongs = data && data.songs ? data.songs : [];
+
   function handleChange(e) {
     const { id, files, value } = e.target;
 
@@ -99,50 +99,27 @@ export default function Admin() {
       <MusicList>
         <Track>Your Track list</Track>
         <TrackContainer>
-          <Song>
-            <img src={hand} className="song_image" alt="Song cover" />
-            <div className="song_name_artist">
-              <div className="song_name">Money Machine</div>
-              <div className="artist">1000 gecks</div>
-            </div>
-            <div className="year_minute">
-              <div className="song_name">3:00</div>
-              <div className="artist">2019</div>
-            </div>
-          </Song>
-          <Song>
-            <img src={hand} className="song_image" alt="Song cover" />
-            <div className="song_name_artist">
-              <div className="song_name">Money Machine</div>
-              <div className="artist">1000 gecks</div>
-            </div>
-            <div className="year_minute">
-              <div className="song_name">3:00</div>
-              <div className="artist">2019</div>
-            </div>
-          </Song>
-          <Song>
-            <img src={hand} className="song_image" alt="Song cover" />
-            <div className="song_name_artist">
-              <div className="song_name">Money Machine</div>
-              <div className="artist">1000 gecks</div>
-            </div>
-            <div className="year_minute">
-              <div className="song_name">3:00</div>
-              <div className="artist">2019</div>
-            </div>
-          </Song>
-          <Song>
-            <img src={hand} className="song_image" alt="Song cover" />
-            <div className="song_name_artist">
-              <div className="song_name">Money Machine</div>
-              <div className="artist">1000 gecks</div>
-            </div>
-            <div className="year_minute">
-              <div className="song_name">3:00</div>
-              <div className="artist">2019</div>
-            </div>
-          </Song>
+          {isLoading ? (
+            <p>Loading songs...</p>
+          ) : error ? (
+            <p>Error loading songs</p>
+          ) : fetchedSongs.length > 0 ? (
+            fetchedSongs.map((song) => (
+              <Song key={song._id}>
+                <img src={song.image_url} className="song_image" alt="Song cover" />
+                <div className="song_name_artist">
+                  <div className="song_name">{song.song_name}</div>
+                  <div className="artist">{song.artist_name}</div>
+                </div>
+                <div className="year_minute">
+                  <div className="song_name">3:00</div>
+                  <div className="artist">{song.date.split("-")[0]}</div>
+                </div>
+              </Song>
+            ))
+          ) : (
+            <p>No Songs Available</p>
+          )}
         </TrackContainer>
       </MusicList>
     </Container>

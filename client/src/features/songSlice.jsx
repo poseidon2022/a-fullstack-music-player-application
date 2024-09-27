@@ -1,7 +1,7 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 
 export const fetchSong = createAsyncThunk("fetchSong", async () => {
-    const songData = await fetch('http://localhost:3000/api/song/allsongs')
+    const songData = await fetch(`http://localhost:3000/api/song/allsongs/${localStorage.getItem('user_id')}`)
     return songData.json()
 })
 

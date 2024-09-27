@@ -108,6 +108,10 @@ export const TrackContainer = styled.div`
     @media screen and (max-width: 900px) {
         height: 20vh;
     }
+    
+    p {
+        color: gray;
+    }
 `
 
 export const Song = styled.div`
