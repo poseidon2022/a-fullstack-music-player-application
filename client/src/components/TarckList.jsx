@@ -7,16 +7,18 @@ import {Container,
 import { FaRandom, FaRedo } from 'react-icons/fa'
 import {useSelector, useDispatch } from "react-redux";
 import { pauseSong, playSong, resumeSong } from '../features/songSlice';
+import { useState } from 'react';
 
 export default function TrackList() {
     const { data, isLoading, error, currentSong, isPlaying} = useSelector((state) => state.song);
+    const [activeSongId, setActiveSongId] = useState(null);
   
     const fetchedSongs = data && data.songs ? data.songs : [];
     const dispatch = useDispatch()
 
     const handlePlay = (song, index) => {
 
-        console.log(song, index)
+        setActiveSongId(song._id);
         if (currentSong && currentSong._id === song._id && isPlaying) {
           dispatch(pauseSong()); 
         } else if (currentSong && currentSong._id === song._id && !isPlaying) {
@@ -44,7 +46,7 @@ export default function TrackList() {
                     <p>Error loading songs</p>
                 ) : fetchedSongs.length > 0 ? (
                     fetchedSongs.map((song, index) => (
-                    <Song key={song._id} onClick = {() => handlePlay(song, index)}>
+                    <Song isActive={song._id === activeSongId} key={song._id} onClick = {() => handlePlay(song, index)}>
                         <img src={song.image_url} className="song_image" alt="Song cover" />
                         <div className="song_name_artist">
                         <div className="song_name">{song.song_name}</div>

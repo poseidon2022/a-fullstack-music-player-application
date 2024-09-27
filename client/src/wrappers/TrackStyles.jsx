@@ -44,11 +44,11 @@ export const Song = styled.div`
     flex-direction: row;
     padding: 5px;
     cursor: pointer;
-    background-color: white; 
+    border-radius: 10px;
+    background-color: ${({ isActive }) => (isActive ? '#f0f0f0' : 'white')};
     
-    &:hover, &:active {
+    &:hover {
         background-color: #f0f0f0;
-        border-radius: 10px;
     }
 
     .song_image {
