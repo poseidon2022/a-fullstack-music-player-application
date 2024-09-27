@@ -1,5 +1,6 @@
 import hand from "../assets/hand.jpg";
 import { useEffect, useRef, useState } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import {
     Container,
     NowPlaying,
@@ -26,6 +27,8 @@ export default function Playing() {
     const [volume, setVolume] = useState(50);
     const audioRef = useRef(null)
 
+    const { currentSong, isPlaying } = useSelector(state => state.song);
+
     useEffect(()=> {
         if (audioRef.current) {
             audioRef.current.volume = volume;
@@ -40,14 +43,14 @@ export default function Playing() {
             <NowPlaying>
                 Now Playing
             </NowPlaying>
-            <ThumbNail src={hand} alt="Hand" />
+            <ThumbNail src={currentSong ? currentSong.image_url : hand} alt="Hand" />
             <MusicDetail>
                 <button>
                     <FaPlus />
                 </button>
                 <MusicName>
-                    <div className = "music_name">Money Machine</div>
-                    <div className = "artist_name">1000 Gecks</div>
+                    <div className = "music_name">{currentSong ? currentSong.song_name : "Company Money"}</div>
+                    <div className = "artist_name">{currentSong ? currentSong.artist_name : "1000 Gecks"}</div>
                 </MusicName>
                 <button>
                     <FaHeart />

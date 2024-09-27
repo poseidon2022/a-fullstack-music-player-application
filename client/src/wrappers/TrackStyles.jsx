@@ -41,27 +41,37 @@ export const TrackContainer = styled.div`
 
 export const Song = styled.div`
     display: flex;
-    flex-direction : row;
-    padding : 5px;
-    cursor : pointer;
+    flex-direction: row;
+    padding: 5px;
+    cursor: pointer;
+    background-color: white; 
+    
+    &:hover, &:active {
+        background-color: #f0f0f0;
+        border-radius: 10px;
+    }
+
     .song_image {
         width: 2.5em;
         height: 2.5em;
-        border-radius : 5px;
+        border-radius: 5px;
     }
+
     .song_name_artist {
-        display : flex;
-        flex-direction : column;
+        display: flex;
+        flex-direction: column;
         padding-left: 7px;
         margin-right: auto;
     }
+
     .artist {
         color: gray;
-        font-size : 0.8em;
+        font-size: 0.8em;
     }
+
     .year_minute {
-        display : flex;
-        flex-direction : column;
+        display: flex;
+        flex-direction: column;
         padding-right: 10px;
     }
-`
+`;

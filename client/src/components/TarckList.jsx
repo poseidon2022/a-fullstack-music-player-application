@@ -5,12 +5,24 @@ import {Container,
         TrackContainer,
         Song} from '../wrappers/TrackStyles'
 import { FaRandom, FaRedo } from 'react-icons/fa'
-import {useSelector } from "react-redux";
+import {useSelector, useDispatch } from "react-redux";
+import { pauseSong, playSong, resumeSong } from '../features/songSlice';
 
 export default function TrackList() {
-    const { data, isLoading, error } = useSelector((state) => state.song);
+    const { data, isLoading, error, currentSong, isPlaying} = useSelector((state) => state.song);
   
     const fetchedSongs = data && data.songs ? data.songs : [];
+    const dispatch = useDispatch()
+
+    const handlePlay = (song, index) => {
+        if (currentSong && currentSong._id === song._id && isPlaying) {
+          dispatch(pauseSong()); 
+        } else if (currentSong && currentSong._id === song._id && !isPlaying) {
+          dispatch(resumeSong()); 
+        } else {
+          dispatch(playSong(song, index));
+        }
+      };
     return (
         <Container>
             <Track>
@@ -30,7 +42,7 @@ export default function TrackList() {
                     <p>Error loading songs</p>
                 ) : fetchedSongs.length > 0 ? (
                     fetchedSongs.map((song) => (
-                    <Song key={song._id}>
+                    <Song key={song._id} onClick = {() => handlePlay((song, index))}>
                         <img src={song.image_url} className="song_image" alt="Song cover" />
                         <div className="song_name_artist">
                         <div className="song_name">{song.song_name}</div>
