@@ -35,8 +35,8 @@ const songSlice = createSlice({
             state.isPlaying = true;
         },
         playPreviousSong: (state) => {
-            const prevIndex = (state.currentIndex - 1 + state.songList.length) % state.songList.length;
-            state.currentIndex = prevIndex;
+            const prevIndex = (state.currentSongIndex - 1 + state.data.length) % state.data.length;
+            state.currentSongIndex = prevIndex;
             state.currentSong = state.data[prevIndex];
             state.isPlaying = true;
         },

@@ -39,15 +39,22 @@ export default function Playing() {
     }, [volume])
 
     useEffect(() => {
-        if (audioRef.current && currentSong) {
-            audioRef.current.src = currentSong.audio_url; // Update audio source
+        if (currentSong) {
+            console.log("Playing:", currentSong.song_name)
+            audioRef.current.src = currentSong.audio_url;
             if (isPlaying) {
                 audioRef.current.play();
-            } else {
-                audioRef.current.pause();
             }
         }
-    }, [currentSong, isPlaying]);
+    }, [currentSong]);
+
+    useEffect(() => {
+        if (isPlaying) {
+            audioRef.current.play();
+        } else {
+            audioRef.current.pause();
+        }
+    }, [isPlaying]);
 
     const handleVolumeChange = (e) => {
         setVolume(e.target.value);
@@ -63,9 +70,9 @@ export default function Playing() {
 
     const handlePlayPause = () => {
         if (isPlaying) {
-          dispatch(pauseSong());
+            dispatch(pauseSong());
         } else {
-          dispatch(resumeSong());
+            dispatch(resumeSong());
         }
     };
 

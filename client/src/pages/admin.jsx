@@ -55,6 +55,7 @@ export default function Admin() {
       }
     } catch (error) {
       console.error("Error uploading:", error);
+      toast.warn("Error while uploading song");
     } finally {
       setLoading(false); // Set loading to false once the request completes
     }

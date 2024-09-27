@@ -23,8 +23,10 @@ class LoginController {
                 })
             } 
             const hashedPassword = foundUser.password;
+            console.log(password)
             const passwordMatch = await bcrypt.compare(password, hashedPassword);
 
+            console.log(passwordMatch)
             if (!passwordMatch) {
                 return res.status(403).json({
                     success: false,
