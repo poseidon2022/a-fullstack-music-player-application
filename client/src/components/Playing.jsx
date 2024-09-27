@@ -83,6 +83,12 @@ export default function Playing() {
             audioRef.current.currentTime = (newProgress / 100) * audioRef.current.duration;
         }
     };
+    
+    const handleRedo = () => {
+        if (audioRef.current) {
+            audioRef.current.currentTime = 0;
+        }
+    }
 
     const handleTimeUpdate = () => {
         if (audioRef.current) {
@@ -140,7 +146,7 @@ export default function Playing() {
                     <button onClick = {handleNext}>
                         <FaForward />
                     </button>
-                    <button className = "random_and_loop">
+                    <button className = "random_and_loop" onClick={handleRedo}>
                         <FaRedo />
                     </button>
                 </PropertyControl>
